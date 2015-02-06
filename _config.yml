@@ -19,5 +19,5 @@ author:
     github:                                              # GitHub地址
     logo: https://avatars0.githubusercontent.com/u/3969341 # logo地址
     douban:
-        name:                                            # 豆瓣地址名称
+        name: varvelworld                                # 豆瓣地址名称
         key:                                             # 豆瓣API Key
