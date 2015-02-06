@@ -16,7 +16,7 @@ author:
     name: varvel                                         # 作者名称
     email:                                               # 邮箱地址
     weibo:                                               # 微博地址
-    github:                                              # GitHub地址
+    github: https://github.com/varvelworld               # GitHub地址
     logo: https://avatars0.githubusercontent.com/u/3969341 # logo地址
     douban:
         name: varvelworld                                # 豆瓣地址名称
