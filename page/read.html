@@ -110,7 +110,19 @@ DoubanApi.prototype.show = function () {
         var fixnums = tmpthis.fix_num(item.maxnum);
         books.push({status: item.status, indexs: fixnums})
     });
+    var mainplace = $("#" + this.defaults.place);
+    if (mainplace.length === 0) {
+        mainplace = $('<div id="' + this.defaults.place + '"></div>').prependTo($("body"))
+    }
     $.each(books, function (i, item) {
+        var type = "book";
+        var status = item.status;
+        if ($("#" + type + status).length === 0) {
+            var title = tmpthis.defaults[type + status + "title"];
+            $('<h3 class="douban-title">' + title + '</h3>').appendTo(mainplace);
+            $('<div id="' + type + status + '" class="douban-list"><ul></ul></div>').appendTo(mainplace);
+            $('<div class="clear"></div>').appendTo(mainplace)
+        }
         $.each(item.indexs, function (t, idx) {
             tmpthis.appendScript(tmpthis.all_url("book", item.status, idx.begin, idx.end))
         })
@@ -121,25 +133,17 @@ DoubanApi.prototype.appendScript = function (url) {
         $("<script/>").attr("src", url).attr("charset", "utf-8").appendTo($("head")[0])
     }
 };
+// 前置：存在$("#" + type + status)
 DoubanApi.prototype.all_url = function (type, status, begin, end) {
     if (end === 0)return;
     if (!this[type + status + "_show"]) {
         this[type + status + "_show"] = function (json) {
-            var mainplace = $("#" + this.defaults.place);
-            if (mainplace.length === 0) {
-                mainplace = $('<div id="' + this.defaults.place + '"></div>').prependTo($("body"))
-            }
-            if ($("#" + type + status).length === 0) {
-                var title = this.defaults[type + status + "title"];
-                $('<h3 class="douban-title">' + title + '</h3>').appendTo(mainplace);
-                $('<div id="' + type + status + '" class="douban-list"><ul></ul></div>').appendTo(mainplace);
-                $('<div class="clear"></div>').appendTo(mainplace)
-            }
             $("#" + type + status + " > ul").append(this.make_list_item(this.parse_json(json)))
         }
     }
     return this.make_api_url(type, this.defaults.user, this.defaults.api, status, begin, end)
 };
+
 var dbapi = new DoubanApi();
 $(document).ready(function () {
     dbapi.show()
